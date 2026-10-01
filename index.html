@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Fine Dining Restaurant</title>
+<meta name="description" content="An experience beyond the plate. Reserve your table today.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#c6a15b; --gold-soft:#d9bd85; --ink:#1b1712; --ink-soft:#2c2620;
+  --cream:#f7f2e9; --cream-2:#efe6d4; --wine:#4a1620; --line:rgba(198,161,91,.35);
+  --bg:#faf6ee; --surface:#ffffff; --text:#231f1a; --muted:#6b6053;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#151210; --surface:#1e1a16; --text:#f2ead9; --muted:#a99d89; --line:rgba(198,161,91,.25); }
+}
+:root[data-theme="dark"]{ --bg:#151210; --surface:#1e1a16; --text:#f2ead9; --muted:#a99d89; --line:rgba(198,161,91,.25); }
+html{scroll-behavior:smooth; scroll-padding-top:env(safe-area-inset-top,0px);}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Jost',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-weight:300;overflow-x:hidden}
+h1,h2,h3,.serif{font-family:'Playfair Display',serif}
+a{color:inherit;text-decoration:none}
+.container{max-width:1180px;margin:0 auto;padding:0 22px}
+.eyebrow{letter-spacing:.28em;text-transform:uppercase;font-size:.72rem;color:var(--gold);font-weight:500}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border-radius:2px;font-size:.8rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;border:1px solid var(--gold);cursor:pointer;transition:.3s ease}
+.btn-primary{background:var(--gold);color:#1b1712}
+.btn-primary:hover{background:var(--gold-soft)}
+.btn-ghost{background:transparent;color:var(--cream);border-color:rgba(247,242,233,.5)}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+img,svg{max-width:100%;display:block}
+.ph{width:100%;aspect-ratio:4/3;border-radius:2px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--wine),var(--ink))}
+.ph::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(247,242,233,.55);font-family:'Playfair Display',serif;font-size:.85rem;letter-spacing:.08em;text-align:center;padding:10px}
+
+.img-frame{position:relative;aspect-ratio:9/16;border-radius:26px;overflow:hidden;border:2px solid var(--gold);box-shadow:0 0 0 5px rgba(198,161,91,.12),0 18px 40px rgba(0,0,0,.28);background:var(--ink)}
+.img-frame img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.img-frame:hover img{transform:scale(1.06)}
+.img-frame::after{content:'';position:absolute;inset:0;border-radius:24px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.15);pointer-events:none}
+
+/* HEADER */
+header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;padding-top:calc(16px + env(safe-area-inset-top,0px));transition:.3s;background:linear-gradient(rgba(10,8,6,.55),transparent)}
+header.solid{background:var(--ink);box-shadow:0 2px 20px rgba(0,0,0,.25)}
+.nav-row{display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--cream);letter-spacing:.05em}
+.logo span{color:var(--gold)}
+.desk-nav{display:none;gap:28px;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+.desk-nav a{color:var(--cream);opacity:.85}
+.desk-nav a:hover{color:var(--gold);opacity:1}
+.burger{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(247,242,233,.4);border-radius:50%;background:transparent;color:var(--cream);cursor:pointer}
+@media(min-width:900px) and (pointer:fine){.desk-nav{display:flex}.burger{display:none}}
+
+.mobile-nav{position:fixed;inset:0;background:var(--ink);z-index:200;display:flex;flex-direction:column;padding:24px;transform:translateX(100%);transition:transform .4s ease;padding-top:calc(24px + env(safe-area-inset-top,0px))}
+.mobile-nav.open{transform:translateX(0)}
+.mobile-nav .close{align-self:flex-end;background:none;border:none;color:var(--cream);font-size:1.6rem;cursor:pointer}
+.mobile-nav a{color:var(--cream);font-family:'Playfair Display',serif;font-size:1.4rem;padding:14px 0;border-bottom:1px solid rgba(247,242,233,.1)}
+
+/* HERO */
+.hero{min-height:100svh;display:flex;align-items:flex-end;position:relative;background:radial-gradient(ellipse at top,#3a2a20,#100c09 70%);padding-bottom:80px}
+.hero::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.75));}
+.hero-content{position:relative;z-index:2;color:var(--cream)}
+.hero h1{font-size:clamp(2.1rem,7vw,4.2rem);line-height:1.08;margin:14px 0 16px;font-weight:600}
+.hero p{max-width:480px;color:rgba(247,242,233,.8);margin-bottom:26px;font-size:1rem}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:24px}
+.quick-links{display:flex;gap:18px;flex-wrap:wrap;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-soft)}
+
+/* SECTION generic */
+section{padding:76px 0}
+.section-head{max-width:600px;margin-bottom:44px}
+.section-head h2{font-size:clamp(1.7rem,4vw,2.6rem);margin-top:10px}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* STORY */
+.story{display:grid;gap:36px}
+.story p{color:var(--muted);margin:16px 0}
+.stats{display:flex;gap:36px;margin-top:22px}
+.stat b{display:block;font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold)}
+.stat span{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+@media(min-width:860px){.story{grid-template-columns:1fr 1fr;align-items:center;gap:60px}}
+
+/* CARDS GRID */
+.grid{display:grid;grid-template-columns:1fr;gap:22px}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr}}
+@media(min-width:900px){.grid.cols-3{grid-template-columns:repeat(3,1fr)}.grid.cols-4{grid-template-columns:repeat(4,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:2px;overflow:hidden;transition:.3s}
+.card:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.12)}
+.card-body{padding:18px 20px 22px}
+.card-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.card-top h3{font-size:1.05rem}
+.price{color:var(--gold);font-family:'Playfair Display',serif}
+.card p{color:var(--muted);font-size:.88rem;margin:8px 0 12px}
+.badge{display:inline-block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;background:var(--gold);color:#1b1712;padding:3px 9px;border-radius:20px;margin-bottom:8px}
+.link-arrow{font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--gold);padding-bottom:2px}
+
+.dark-section{background:var(--ink);color:var(--cream)}
+.dark-section .muted,.dark-section p{color:rgba(247,242,233,.65)}
+.dark-section .card{background:rgba(247,242,233,.03);border-color:rgba(198,161,91,.2)}
+
+/* RESERVATION */
+.res-wrap{display:grid;gap:36px}
+@media(min-width:900px){.res-wrap{grid-template-columns:1fr 1.1fr;gap:56px}}
+form{display:grid;gap:14px}
+.form-row{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:560px){.form-row.two{grid-template-columns:1fr 1fr}}
+label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:6px;display:block}
+input,select,textarea{width:100%;padding:13px 14px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:2px;font-family:'Jost',sans-serif;font-size:.92rem}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+.hint{font-size:.72rem;color:var(--muted);margin-top:-6px}
+.error-text{color:#b5473c;font-size:.75rem;display:none}
+.field.invalid input,.field.invalid select{border-color:#b5473c}
+.field.invalid .error-text{display:block}
+#confirmBox{display:none;background:var(--surface);border:1px solid var(--gold);padding:18px;border-radius:2px;margin-top:16px}
+#confirmBox.show{display:block}
+
+.hours-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+.contact-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+
+footer{background:var(--ink);color:rgba(247,242,233,.7);padding:60px 0 calc(30px + env(safe-area-inset-bottom,0px))}
+.foot-grid{display:grid;gap:34px;grid-template-columns:1fr}
+@media(min-width:820px){.foot-grid{grid-template-columns:1.4fr 1fr 1fr 1fr}}
+footer h4{color:var(--gold);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:500}
+footer a{display:block;padding:5px 0;font-size:.88rem;opacity:.85}
+footer a:hover{color:var(--gold);opacity:1}
+.foot-bottom{margin-top:40px;padding-top:20px;border-top:1px solid rgba(247,242,233,.1);font-size:.75rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+
+/* MOBILE STICKY BAR */
+.mobile-bar{position:fixed;bottom:0;left:0;right:0;z-index:90;display:flex;background:var(--ink);border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom,0px))}
+.mobile-bar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--cream);font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;padding:6px 0}
+.mobile-bar a.highlight{color:var(--gold)}
+@media(min-width:900px){.mobile-bar{display:none}}
+@media(max-width:899px){body{padding-bottom:64px}}
+
+.marquee{overflow:hidden;white-space:nowrap;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:14px 0}
+.marquee span{display:inline-block;padding-right:40px;font-family:'Playfair Display',serif;font-style:italic;color:var(--gold);font-size:.95rem}
+
+.hero{overflow:hidden}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.5) saturate(1.05) contrast(1.05);z-index:0}
+.hero::before{z-index:1}
+.hero-content{z-index:2}
+
+.reveal{opacity:0;transform:translateY(46px);filter:sepia(.55) grayscale(.35) brightness(.9);transition:opacity 1.1s cubic-bezier(.16,.84,.44,1),transform 1.1s cubic-bezier(.16,.84,.44,1),filter 1.3s ease}
+.reveal.visible{opacity:1;transform:translateY(0);filter:sepia(0) grayscale(0) brightness(1)}
+.reveal-line{position:relative}
+.reveal-line::after{content:'';display:block;width:0;height:2px;background:var(--gold);margin-top:14px;transition:width 1s ease .15s}
+.reveal-line.visible::after{width:64px}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:1;box-shadow:inset 0 0 160px rgba(0,0,0,.35);mix-blend-mode:multiply;opacity:.5}
+
+/* ---- premium polish pass ---- */
+h1,h2{background:linear-gradient(180deg,var(--gold-soft) 0%,var(--gold) 55%,#a3813f 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:.01em}
+.hero h1{background:linear-gradient(180deg,#fff3da 0%,var(--gold-soft) 45%,var(--gold) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;text-shadow:0 2px 30px rgba(198,161,91,.25)}
+.ornament{display:flex;align-items:center;gap:10px;margin:8px 0 4px}
+.ornament::before,.ornament::after{content:'';flex:0 0 26px;height:1px;background:linear-gradient(90deg,transparent,var(--gold))}
+.ornament::after{background:linear-gradient(90deg,var(--gold),transparent)}
+.ornament span{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);flex:none}
+.hero::after{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.04) 1px,transparent 1px);background-size:3px 3px;opacity:.5;z-index:1;pointer-events:none}
+.btn{position:relative;overflow:hidden}
+.btn::before{content:'';position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(120deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-20deg);transition:left .6s ease}
+.btn:hover::before{left:130%}
+.card{position:relative}
+.card::before{content:'';position:absolute;inset:0;border:1px solid transparent;background:linear-gradient(135deg,rgba(198,161,91,.5),transparent 40%) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;opacity:0;transition:opacity .4s}
+.card:hover::before{opacity:1}
+.img-frame{box-shadow:0 0 0 5px rgba(198,161,91,.12),0 25px 50px -10px rgba(0,0,0,.45),0 0 40px -10px rgba(198,161,91,.15)}
+.logo{position:relative;font-weight:600}
+.stat b{text-shadow:0 2px 18px rgba(198,161,91,.35)}
+.price{font-weight:600;text-shadow:0 1px 12px rgba(198,161,91,.3)}
+#confirmBox{border-image:linear-gradient(135deg,var(--gold),transparent,var(--gold)) 1;box-shadow:0 10px 30px rgba(198,161,91,.15)}
+::selection{background:var(--gold);color:#1b1712}
+</style>
+</head>
+<body>
+<div class="vignette"></div>
+
+<header id="siteHeader">
+  <div class="container nav-row">
+    <a href="#top" class="logo">&#10022;</a>
+    <nav class="desk-nav">
+      <a href="#story">About</a><a href="#menu">Menu</a><a href="#dining">Dining</a>
+      <a href="#offers">Offers</a><a href="#reserve">Reservation</a><a href="#contact">Contact</a>
+    </nav>
+    <button class="burger" id="openNav" aria-label="Open menu">☰</button>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  <button class="close" id="closeNav" aria-label="Close menu">×</button>
+  <a href="#top">Home</a><a href="#menu">Menu</a><a href="#story">About</a>
+  <a href="#dining">Dining</a><a href="#gallery">Gallery</a><a href="#private">Private Dining</a>
+  <a href="#parties">Parties &amp; Functions</a><a href="#offers">Offers</a>
+  <a href="#reserve">Reservation</a><a href="#contact">Contact</a>
+</div>
+
+<section class="hero" id="top">
+  <video class="hero-video" autoplay muted loop playsinline><source src="video/hero-background.mp4" type="video/mp4"></video>
+  <div class="container hero-content">
+    <p class="eyebrow">Fine Dining · Est. 2010</p>
+    <h1>An Experience<br>Beyond The Plate</h1>
+    <p>Exceptional cuisine, timeless ambience, and moments worth remembering.</p>
+    <div class="hero-ctas">
+      <a href="#reserve" class="btn btn-primary">Book A Table</a>
+      <a href="#menu" class="btn btn-ghost">Explore The Menu</a>
+    </div>
+    <div class="quick-links">
+      <a href="tel:+10000000000">📞 Call Now</a>
+      <a href="#contact">📍 Directions</a>
+      <a href="https://wa.me/10000000000" target="_blank" rel="noopener">💬 WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<section id="story">
+  <div class="container story">
+    <div class="img-frame reveal"><img src="images/story-chef-plating.jpg" alt="Chef plating a signature dish" loading="lazy"></div>
+    <div>
+      <p class="eyebrow">Our Story</p>
+      <h2>Crafted With Heritage,<br>Served With Heart</h2>
+      <p>For over fifteen years, we have been devoted to a single idea: that a meal can be a memory. Our kitchen blends classic technique with seasonal inspiration, and our dining room is designed to make every guest feel like family — of the most distinguished kind.</p>
+      <p>Under the guidance of our executive chef, every plate leaving the kitchen carries our philosophy of precision, warmth, and generosity.</p>
+      <div class="stats">
+        <div class="stat reveal"><b>15+</b><span>Years of Craft</span></div>
+        <div class="stat reveal"><b>40+</b><span>Signature Dishes</span></div>
+        <div class="stat reveal"><b>4.9</b><span>Guest Rating</span></div>
+      </div>
+      <div style="margin-top:26px"><a href="#" class="btn btn-primary" style="border-color:var(--gold)">Discover Our Story</a></div>
+    </div>
+  </div>
+</section>
+
+<section id="menu" class="dark-section">
+  <div class="container">
+    <div class="section-head reveal reveal-line"><p class="eyebrow">Menu Showcase</p><div class="ornament"><span></span></div><h2>A Taste Of What Awaits</h2></div>
+    <div class="grid cols-4">
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/menu-seared-scallops.jpg" alt="Seared scallops, starter" loading="lazy"></div><div class="card-body"><div class="card-top"><h3>Seared Scallops</h3><span class="price">$24</span></div><p>Citrus butter, micro greens, toasted almond.</p><span class="link-arrow">View Details</span></div></div>
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/menu-herb-crusted-lamb.jpg" alt="Herb-crusted lamb rack" loading="lazy"></div><div class="card-body"><div class="card-top"><h3>Herb-Crusted Lamb</h3><span class="price">$46</span></div><p>Rosemary jus, roasted root vegetables.</p><span class="link-arrow">View Details</span></div></div>
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/menu-truffle-risotto.jpg" alt="Truffle risotto" loading="lazy"></div><div class="card-body"><div class="card-top"><h3>Truffle Risotto</h3><span class="price">$32</span></div><p>Aged parmesan, black truffle shavings.</p><span class="link-arrow">View Details</span></div></div>
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/menu-chocolate-fondant.jpg" alt="Dark chocolate fondant" loading="lazy"></div><div class="card-body"><div class="card-top"><h3>Chocolate Fondant</h3><span class="price">$16</span></div><p>Molten centre, vanilla bean ice cream.</p><span class="link-arrow">View Details</span></div></div>
+    </div>
+    <div class="center" style="margin-top:38px"><a href="#" class="btn btn-ghost">View Full Menu</a></div>
+  </div>
+</section>
+
+<div class="marquee"><span>Signature Selection &nbsp; ✦ &nbsp; Chef's Recommendation &nbsp; ✦ &nbsp; Seasonal Ingredients &nbsp; ✦ &nbsp; Signature Selection &nbsp; ✦ &nbsp; Chef's Recommendation &nbsp; ✦</span></div>
+
+<section id="dining">
+  <div class="container">
+    <div class="section-head reveal reveal-line center"><p class="eyebrow">Dining Experience</p><div class="ornament"><span></span></div><h2>Where Every Table Tells A Story</h2></div>
+    <div class="grid cols-3">
+      <div class="img-frame reveal"><img src="images/dining-fine-table-setting.jpg" alt="Fine dining table setting" loading="lazy"></div>
+      <div class="img-frame reveal"><img src="images/dining-private-candlelit-table.jpg" alt="Private candlelit table for two" loading="lazy"></div>
+      <div class="img-frame reveal"><img src="images/dining-family-area.jpg" alt="Family dining area" loading="lazy"></div>
+    </div>
+    <div class="center" style="margin-top:34px"><a href="#reserve" class="btn btn-primary" style="color:#1b1712">Reserve Your Table</a></div>
+  </div>
+</section>
+
+<section id="offers" class="dark-section">
+  <div class="container">
+    <div class="section-head reveal reveal-line"><p class="eyebrow">Offers</p><div class="ornament"><span></span></div><h2>Curated For Every Occasion</h2></div>
+    <div class="grid cols-3">
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/offer-weekend-brunch.jpg" alt="Weekend brunch spread" loading="lazy"></div><div class="card-body"><span class="badge">Weekends</span><h3>Weekend Brunch</h3><p>3-course set menu, valid Sat–Sun, 11am–3pm.</p><span class="link-arrow">View Offer</span></div></div>
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/offer-couple-candlelight.jpg" alt="Couple dining candlelight" loading="lazy"></div><div class="card-body"><span class="badge">Couples</span><h3>Date Night</h3><p>Complimentary dessert for two, Mon–Wed evenings.</p><span class="link-arrow">View Offer</span></div></div>
+      <div class="card reveal"><div class="img-frame reveal"><img src="images/offer-corporate-dinner.jpg" alt="Corporate dinner table" loading="lazy"></div><div class="card-body"><span class="badge">Corporate</span><h3>Business Dining</h3><p>Private setup with tailored set menus.</p><span class="link-arrow">View Offer</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="reserve">
+  <div class="container res-wrap">
+    <div>
+      <p class="eyebrow">Reservation</p>
+      <h2>Request A Table</h2>
+      <p style="color:var(--muted);margin:16px 0">Submit your details and our host team will confirm availability by phone or WhatsApp. This form does not guarantee an instant confirmation.</p>
+      <div class="stat reveal" style="margin-top:20px"><span>Prefer to talk?</span></div>
+      <div class="contact-actions">
+        <a href="tel:+10000000000" class="btn btn-ghost" style="color:var(--text);border-color:var(--line)">Call Now</a>
+        <a href="https://wa.me/10000000000" target="_blank" rel="noopener" class="btn btn-ghost" style="color:var(--text);border-color:var(--line)">WhatsApp</a>
+      </div>
+    </div>
+    <form id="resForm" novalidate>
+      <div class="form-row two">
+        <div class="field"><label for="name">Full Name</label><input id="name" required><span class="error-text">Please enter your name.</span></div>
+        <div class="field"><label for="phone">Mobile Number</label><input id="phone" type="tel" required><span class="error-text">Please enter a valid number.</span></div>
+      </div>
+      <div class="field"><label for="email">Email</label><input id="email" type="email"></div>
+      <div class="form-row two">
+        <div class="field"><label for="date">Date</label><input id="date" type="date" required><span class="error-text">Please choose a date.</span></div>
+        <div class="field"><label for="time">Preferred Time</label><input id="time" type="time" required><span class="error-text">Please choose a time.</span></div>
+      </div>
+      <div class="form-row two">
+        <div class="field"><label for="guests">Guests</label><input id="guests" type="number" min="1" value="2" required></div>
+        <div class="field"><label for="seating">Seating Preference</label>
+          <select id="seating"><option>Indoor</option><option>Outdoor</option><option>Private Dining</option><option>Family Table</option><option>Couple Table</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="notes">Special Request</label><textarea id="notes" rows="3"></textarea></div>
+      <button type="submit" class="btn btn-primary" style="margin-top:6px">Request A Reservation</button>
+      <div id="confirmBox"><strong>Request received.</strong> Our team will contact you shortly to confirm your reservation.</div>
+    </form>
+  </div>
+</section>
+
+<section id="contact" class="dark-section">
+  <div class="container">
+    <div class="grid cols-2" style="align-items:start">
+      <div>
+        <p class="eyebrow">Visit Us</p>
+        <h2 style="margin-bottom:16px">Location &amp; Hours</h2>
+        <p>221 Harbour Row, Riverside District</p>
+        <p>Near Riverside Gardens · Valet parking available</p>
+        <div style="margin-top:20px">
+          <div class="hours-row"><span>Mon – Thu</span><span>11:00 AM – 11:00 PM</span></div>
+          <div class="hours-row"><span>Fri – Sun</span><span>11:00 AM – 12:00 AM</span></div>
+        </div>
+        <div class="contact-actions">
+          <a href="tel:+10000000000" class="btn btn-primary" style="color:#1b1712">Call Now</a>
+          <a href="https://wa.me/10000000000" target="_blank" rel="noopener" class="btn btn-ghost">WhatsApp</a>
+          <a href="#" class="btn btn-ghost">Get Directions</a>
+        </div>
+      </div>
+      <div class="ph" data-label="Map placeholder — embed Google Maps here" style="aspect-ratio:1/1"></div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <div class="container foot-grid">
+    <div>
+      <div class="logo" style="margin-bottom:10px">&#10022;</div>
+      <p style="opacity:.7;font-size:.88rem;max-width:280px">An experience beyond the plate — fine dining, private events, and unforgettable evenings.</p>
+    </div>
+    <div><h4>Explore</h4><a href="#menu">Menu</a><a href="#dining">Dining</a><a href="#story">About</a><a href="#offers">Offers</a></div>
+    <div><h4>Plan A Visit</h4><a href="#reserve">Reservation</a><a href="#">Private Dining</a><a href="#">Parties &amp; Functions</a></div>
+    <div><h4>Connect</h4><a href="#contact">Contact</a><a href="#">Instagram</a><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+  </div>
+  <div class="container foot-bottom"><span>© 2026. All rights reserved.</span><span>Designed for a premium dining experience.</span></div>
+</footer>
+
+<div class="mobile-bar">
+  <a href="tel:+10000000000">📞<span>Call</span></a>
+  <a href="https://wa.me/10000000000" target="_blank" rel="noopener">💬<span>WhatsApp</span></a>
+  <a href="#menu">📋<span>Menu</span></a>
+  <a href="#reserve" class="highlight">🍽️<span>Book</span></a>
+</div>
+
+<script>
+const header=document.getElementById('siteHeader');
+window.addEventListener('scroll',()=>{ header.classList.toggle('solid', window.scrollY>60); });
+
+const mobileNav=document.getElementById('mobileNav');
+document.getElementById('openNav').addEventListener('click',()=>mobileNav.classList.add('open'));
+document.getElementById('closeNav').addEventListener('click',()=>mobileNav.classList.remove('open'));
+mobileNav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mobileNav.classList.remove('open')));
+
+const form=document.getElementById('resForm');
+form.addEventListener('submit',e=>{
+  e.preventDefault();
+  let valid=true;
+  const req=[['name',v=>v.trim().length>1],['phone',v=>v.trim().length>=7],['date',v=>!!v],['time',v=>!!v]];
+  req.forEach(([id,test])=>{
+    const el=document.getElementById(id);
+    const field=el.closest('.field');
+    if(!test(el.value)){ field.classList.add('invalid'); valid=false; } else { field.classList.remove('invalid'); }
+  });
+  if(valid){
+    document.getElementById('confirmBox').classList.add('show');
+    form.querySelectorAll('input,textarea,select').forEach(el=>el.disabled=true);
+    form.querySelector('button[type="submit"]').style.display='none';
+  }
+});
+
+const revealEls = document.querySelectorAll('.reveal');
+revealEls.forEach(el=>{
+  const r = el.getBoundingClientRect();
+  if(r.top < window.innerHeight * 0.9) el.classList.add('visible');
+});
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(en=>{
+    if(en.isIntersecting){ en.target.classList.add('visible'); io.unobserve(en.target); }
+  });
+}, { threshold: 0.05, rootMargin: '0px 0px -5% 0px' });
+revealEls.forEach(el=>{ if(!el.classList.contains('visible')) io.observe(el); });
+</script>
+</body>
+</html>
